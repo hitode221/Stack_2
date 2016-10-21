@@ -20,7 +20,7 @@ protected:
 	auto swap(allocator & other) noexcept -> void; //noexcept
 
 	allocator(allocator const &) = delete;
-	auto operator =(allocator const &)->allocator & = delete;
+	auto operator =(allocator const &) -> allocator & = delete;
 
 	T * array_;
 	size_t array_size_;
@@ -33,12 +33,12 @@ public:
 	stack(); //noexcept	
 	stack(const stack<T> & stack_); //strong
 	~stack(); //noexcept
-	auto operator =(stack<T> & stack_)->stack<T> &; //strong 
-	auto count() const noexcept->size_t; //noexcept
-	auto size() const noexcept->size_t; //noexcept
+	auto operator =(stack<T> & stack_) -> stack<T> &; //strong 
+	auto count() const noexcept -> size_t; //noexcept
+	auto size() const noexcept -> size_t; //noexcept
 	auto push(T const & element) -> void; //strong
 	auto empty() const noexcept -> bool; //noexcept
-	auto top()  const throw(std::logic_error)->T&; //strong
+	auto top()  const throw(std::logic_error) -> T &; //strong
 	auto pop()  throw(std::logic_error) -> void; //strong
 };
 
