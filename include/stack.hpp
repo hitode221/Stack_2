@@ -1,5 +1,7 @@
 #pragma once
+#include <algorithm>
 #include <stdexcept>
+#include <new>
 
 using std::size_t;
 
