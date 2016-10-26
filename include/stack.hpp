@@ -27,10 +27,7 @@ public:
 	auto size()->size_t;
 	auto resize(size_t size_) -> void;
 	auto operator [](size_t index) -> bool&;
-	auto swap(bitset & other) -> void {
-		std::swap(size_, other.size_);
-		std::swap(set_, other.set_);
-	}
+	auto swap(bitset & other) -> void;
 private:
 	size_t size_;
 	bool *set_;
@@ -118,8 +115,13 @@ auto bitset::operator [](size_t index) ->bool& {
 	if (index >= 0 && index < size_) {
 		return set_[index];
 	}
-	else throw (std::range_error("out of bitset"));
+	else throw (std::range_error("out of range"));
 }
+
+auto bitset::swap(bitset & other) -> void {
+		std::swap(size_, other.size_);
+		std::swap(set_, other.set_);
+	}
 
 template<class T>
 allocator<T>::allocator(size_t size) : size_(size), count_(0), ptr_((static_cast<T *>(size == 0 ? nullptr : operator new(size * sizeof(T))))), bitset_(size_) {}
