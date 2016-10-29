@@ -27,7 +27,6 @@ public:
 	auto reset(size_t index) -> void;
 	auto test(size_t index) const -> bool;
 	auto size()->size_t;
-	auto resize(size_t size_) -> void;
 	auto operator [](size_t index) -> bool&;
 	auto swap(bitset & other) -> void;
 private:
@@ -103,16 +102,6 @@ auto bitset::size() -> size_t {
 	return size_;
 }
 
-auto bitset::resize(size_t size) -> void {
-	bool *temp = copy_array(set_, size_, size);
-	for (size_t i = size_; i < size; ++i) {
-		temp[i] = 0;
-	}
-	delete[] set_;
-	set_ = temp;
-	size_ = size;
-}
-
 auto bitset::operator [](size_t index) ->bool& {
 	if (index >= 0 && index < size_) {
 		return set_[index];
@@ -143,6 +132,7 @@ allocator<T>::~allocator() {
 		if(bitset_.test(first - ptr_))
 			destroy(&*first);
 	}
+	operator delete(ptr_);
 }
 
 template<class T>
