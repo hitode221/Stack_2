@@ -118,7 +118,7 @@ template<class T>
 allocator<T>::allocator(size_t size) : size_(size), count_(0), ptr_((static_cast<T *>(size == 0 ? nullptr : operator new(size * sizeof(T))))), bitset_(size_) {}
 
 template<class T>
-allocator<T>::allocator(allocator const & other) : allocator<T>(other.size()) {
+allocator<T>::allocator(allocator const & other) : allocator<T>(other.size_) {
 	for (size_t i = 0; i < other.size_; ++i) {
 		if (other.bitset_.test(i)) {
 			construct(ptr_ + i, other.get()[i]);
