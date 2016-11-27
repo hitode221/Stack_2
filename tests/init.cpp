@@ -2,6 +2,7 @@
 #include <catch.hpp>
 #include <iostream>
 #include <fstream>
+#include <thread>
 
 SCENARIO("Stack init", "[init]") {
 	stack<int> Stack;
@@ -29,7 +30,7 @@ SCENARIO("Stack count", "[count]") {
 	REQUIRE(Stack.count() == 10);
 }
 
-SCENARIO("operator =", "[operator =]") {
+/*SCENARIO("operator =", "[operator =]") {
 	stack<int> Stack;
 	Stack.push(221);
 	stack<int> Stack_ = Stack;
@@ -40,7 +41,7 @@ SCENARIO("copy constructor", "[copy constructor]") {
 	Stack.push(221);
 	stack<int> Stack_(Stack);
 	REQUIRE(Stack_.top() == 221);
-}
+}*/
 SCENARIO("empty", "[empty]") {
 	stack<int> Stack;
 	REQUIRE(Stack.empty());
