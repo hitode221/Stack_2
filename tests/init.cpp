@@ -53,5 +53,5 @@ SCENARIO("threads", "[threads]"){
 	REQUIRE(Stack.top() == 1);
 	std::thread thr2(&stack<int>::pop, &Stack);
 	thr2.join();
-	REAUIRE(Stack.empty());
+	REQUIRE(Stack.empty());
 }
