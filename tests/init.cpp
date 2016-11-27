@@ -45,3 +45,12 @@ SCENARIO("empty", "[empty]") {
 	stack<int> Stack;
 	REQUIRE(Stack.empty());
 }
+SCENARIO("threads", "[threads]"){
+	stack<int> Stack;
+	std::thread thr1(&stack<int>::push, &Stack, 1);
+	thr1.join();
+	REQUIRE(Stack.top() == 1);
+	std::thread thr2(&stack<int>::pop, &Stack);
+	thr2.join();
+	REAUIRE(Stack.empty());
+}
