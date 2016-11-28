@@ -259,6 +259,7 @@ template<class T>
 auto stack<T>::operator=(stack const & other) -> stack &
 {
 	std::lock_guard<std::mutex> lock(mutex_);
+	std::lock_guard<std::mutex> otherlock(other.mutex_);
 	if (this != &other) {
 		(allocator<T>(other.allocator_)).swap(allocator_);
 	}
