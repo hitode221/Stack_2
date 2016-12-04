@@ -212,7 +212,8 @@ auto allocator<T>::empty() const -> bool {
 template<class T>
 stack<T>::stack(size_t size) : allocator_(size), mutex_() {}
 
-stack<T>::stack(stack const & rhs) : allocator_(rhs.allocator_), mutex_() {}
+template<class T>
+stack<T>::stack(stack const & other) : allocator_(other.allocator_), mutex_() {}
 
 template<class T>
 stack<T>::~stack() {
