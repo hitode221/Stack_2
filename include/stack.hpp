@@ -63,7 +63,7 @@ template <class T>
 class stack {
 public:
 	explicit stack(size_t size = 0); /*noexcept*/
-	stack(stack const & other) = default; /*strong*/
+	stack(stack const & other); /*strong*/
 	~stack(); /*noexcept*/
 	auto count() const noexcept->size_t; /*noexcept*/
 	auto empty() const noexcept -> bool; /*noexcept*/
@@ -212,6 +212,8 @@ auto allocator<T>::empty() const -> bool {
 template<class T>
 stack<T>::stack(size_t size) : allocator_(size), mutex_() {}
 
+stack<T>::stack(stack const & rhs) : allocator_(rhs.allocator_), mutex_() {}
+
 template<class T>
 stack<T>::~stack() {
 }
@@ -258,8 +260,9 @@ auto stack<T>::push(T const & value) -> void {
 template<class T>
 auto stack<T>::operator=(stack const & other) -> stack &
 {
-	std::lock_guard<std::mutex> lock(mutex_);
-	std::lock_guard<std::mutex> otherlock(other.mutex_);
+	std::lock(mutex_, other.mutex_);
+	std::lock_guard<std::mutex> lock(mutex_, std::adopt_lock);
+	std::lock_guard<std::mutex> otherlock(other.mutex_, std::adopt_lock);
 	if (this != &other) {
 		(allocator<T>(other.allocator_)).swap(allocator_);
 	}
