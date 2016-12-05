@@ -11,7 +11,7 @@ SCENARIO("Stack init", "[init]") {
 SCENARIO("Stack push and top", "[push and top]") {
 	stack<int> Stack;
 	Stack.push(3);
-	REQUIRE(Stack.pop() == 3);
+	REQUIRE(*Stack.pop() == 3);
 }
 SCENARIO("Stack pop", "[pop]") {
 	stack<int> Stack;
@@ -50,7 +50,7 @@ SCENARIO("threads", "[threads]"){
 	stack<int> Stack;
 	std::thread thr1(&stack<int>::push, &Stack, 1);
 	thr1.join();
-	REQUIRE(Stack.pop() == 1);
+	REQUIRE(*Stack.pop() == 1);
 	Stack.push(221);
 	std::thread thr2(&stack<int>::pop, &Stack);
 	thr2.join();
