@@ -4,6 +4,7 @@
 #include <new>
 #include <mutex>
 #include <iostream>
+#include <memory>
 
 using std::size_t;
 
@@ -67,8 +68,9 @@ public:
 	~stack(); /*noexcept*/
 	auto count() const noexcept->size_t; /*noexcept*/
 	auto empty() const noexcept -> bool; /*noexcept*/
-	auto top() const -> const T&; /*strong*/
-	auto pop() -> void; /*strong*/
+	//auto top() const -> const T&; /*strong*/
+	//auto pop() -> void; /*strong*/
+	auto pop() -> const std::shared_ptr<T>; //strong
 	auto push(T const & value) -> void; /*strong*/
 	auto operator=(stack const & other)->stack &; /*strong*/
 private:
@@ -231,7 +233,7 @@ auto stack<T>::empty() const noexcept -> bool {
 	return allocator_.empty();
 }
 
-template<class T>
+/*template<class T>
 auto stack<T>::top() const -> const T &{
 	std::lock_guard<std::mutex> lock(mutex_);
 	if (allocator_.empty()) {
@@ -247,6 +249,19 @@ auto stack<T>::pop() -> void {
 		throw std::logic_error("empty stack");
 	}
 	allocator_.destroy(allocator_.get() + allocator_.count() - 1);
+}*/
+
+template <typename T>
+auto stack<T>::pop() -> const std::shared_ptr<T> {
+	std::lock_guard<std::mutex> lock(mutex_);
+	if (allocator_.empty()) {
+		throw std::logic_error("empty stack");
+	}
+	else {
+		const std::shared_ptr<T> top(std::make_shared<T>(allocator_.get()[allocator_.count() - 1]));
+		allocator_.destroy(allocator_.get() + allocator_.count() - 1);
+		return top;
+	}
 }
 
 template<class T>
