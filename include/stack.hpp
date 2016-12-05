@@ -212,14 +212,17 @@ auto allocator<T>::empty() const -> bool {
 }
 
 template<class T>
-stack<T>::stack(size_t size) : allocator_(size), mutex_() {}
+stack<T>::stack(size_t size) : allocator_(), mutex_() {}
 
 template<class T>
-stack<T>::stack(stack const & other) : allocator_(other.allocator_), mutex_() {}
-
-template<class T>
-stack<T>::~stack() {
+stack<T>::stack(stack const & other) : allocator_(0), mutex_() {
+	std::lock_guard<std::mutex> lock(other.mutex_);
+	allocator<T>(other.allocator_).swap(allocator_);
 }
+
+template<class T>
+stack<T>::~stack() {}
+
 
 template<class T>
 auto stack<T>::count() const noexcept -> size_t {
