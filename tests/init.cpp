@@ -50,7 +50,8 @@ SCENARIO("threads", "[threads]"){
 	stack<int> Stack;
 	std::thread thr1(&stack<int>::push, &Stack, 1);
 	thr1.join();
-	REQUIRE(Stack.top() == 1);
+	REQUIRE(Stack.pop() == 1);
+	Stack.push(221);
 	std::thread thr2(&stack<int>::pop, &Stack);
 	thr2.join();
 	REQUIRE(Stack.empty());
