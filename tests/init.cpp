@@ -11,7 +11,7 @@ SCENARIO("Stack init", "[init]") {
 SCENARIO("Stack push and top", "[push and top]") {
 	stack<int> Stack;
 	Stack.push(3);
-	REQUIRE(Stack.top() == 3);
+	REQUIRE(Stack.pop() == 3);
 }
 SCENARIO("Stack pop", "[pop]") {
 	stack<int> Stack;
